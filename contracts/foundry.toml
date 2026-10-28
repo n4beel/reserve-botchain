@@ -25,3 +25,9 @@ bohr = "${BOHR_RPC_URL}"
 [etherscan]
 botchain = { key = "${BOTSCAN_API_KEY}", url = "${BOTSCAN_VERIFIER_URL}", chain = 677 }
 bohr = { key = "${BOTSCAN_API_KEY}", url = "${BOHR_VERIFIER_URL}", chain = 968 }
+
+[invariant]
+runs = 256
+depth = 128
+fail_on_revert = false
+
