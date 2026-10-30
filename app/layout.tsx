@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Red_Hat_Display, Atkinson_Hyperlegible, Azeret_Mono } from "next/font/google";
 import { EvmProvider } from "@/components/providers/EvmProvider";
 import { ToastProvider } from "@/components/ui/Toast";
+import WrongNetworkBar from "@/components/botchain/WrongNetworkBar";
 import { app } from "@/lib/app-config";
 import "./globals.css";
 
@@ -45,7 +46,10 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
     >
       <body className="min-h-full antialiased">
         <EvmProvider>
-          <ToastProvider>{children}</ToastProvider>
+          <ToastProvider>
+            <WrongNetworkBar />
+            {children}
+          </ToastProvider>
         </EvmProvider>
       </body>
     </html>
