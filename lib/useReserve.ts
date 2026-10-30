@@ -26,11 +26,11 @@ import type { ResourceData, BookingData } from "./reserve";
 
 export function useReserve() {
   const chainId = useChainId();
-  const currentChainId: BotChainId = isBotChainId(chainId) ? chainId : 968;
+  const currentChainId: BotChainId = activeBotChain.id;
   const deployment = getDeployment(currentChainId);
   const deployed = isDeployed(currentChainId);
 
-  const publicClient = usePublicClient(); // stable-hook-result
+  const publicClient = usePublicClient({ chainId: activeBotChain.id }); // stable-hook-result
   const { data: walletClient } = useWalletClient();
   const { address } = useAccount();
   const { toast } = useToast();

@@ -41,7 +41,7 @@ interface UserBookingItem {
 
 export default function MyDashboardPage() {
   const { address } = useAccount();
-  const publicClient = usePublicClient(); // stable-hook-result
+  const publicClient = usePublicClient({ chainId: activeBotChain.id }); // stable-hook-result
   const {
     contractAddress,
     deployed,

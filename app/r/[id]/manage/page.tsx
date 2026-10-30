@@ -40,7 +40,7 @@ export default function HostManagePage() {
   const resourceId = rawId ? BigInt(rawId) : 0n;
 
   const { address } = useAccount();
-  const publicClient = usePublicClient(); // stable-hook-result
+  const publicClient = usePublicClient({ chainId: activeBotChain.id }); // stable-hook-result
   const {
     contractAddress,
     fetchResource,
