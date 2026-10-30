@@ -1,5 +1,6 @@
 "use client";
 
+import { activeBotChain } from "@/lib/botchain/chain";
 import React, { useState, useEffect, useCallback, useMemo } from "react";
 import { useParams } from "next/navigation";
 import Link from "next/link";

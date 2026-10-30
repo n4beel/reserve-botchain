@@ -1,5 +1,7 @@
 "use client";
 
+import { activeBotChain } from "@/lib/botchain/chain";
+import { assertActiveChain, checkedWrite, waitSuccess } from "@/lib/useChainWrite";
 import { useState, useCallback } from "react";
 import {
   useAccount,
@@ -277,14 +279,15 @@ export function useReserve() {
       }
       setIsTransacting(true);
       try {
-        const hash = await walletClient.writeContract({
+        await assertActiveChain(walletClient);
+        const hash = await checkedWrite(walletClient, publicClient, {
           address: deployment.address,
           abi: reserveAbi,
           functionName: "open",
           args: [name, priceWei, slotSecs, cutoffSecs],
         });
         setTxHash(hash);
-        const receipt = await publicClient.waitForTransactionReceipt({ hash });
+        const receipt = await waitSuccess(publicClient, hash);
         showToast("Resource registered successfully!", "success");
 
         // Parse Opened event from logs
@@ -314,7 +317,8 @@ export function useReserve() {
       }
       setIsTransacting(true);
       try {
-        const hash = await walletClient.writeContract({
+        await assertActiveChain(walletClient);
+        const hash = await checkedWrite(walletClient, publicClient, {
           address: deployment.address,
           abi: reserveAbi,
           functionName: "book",
@@ -322,7 +326,7 @@ export function useReserve() {
           value: priceWei,
         });
         setTxHash(hash);
-        await publicClient.waitForTransactionReceipt({ hash });
+        await waitSuccess(publicClient, hash);
         showToast("Slot booked successfully!", "success");
         return true;
       } catch (err) {
@@ -343,14 +347,15 @@ export function useReserve() {
       }
       setIsTransacting(true);
       try {
-        const hash = await walletClient.writeContract({
+        await assertActiveChain(walletClient);
+        const hash = await checkedWrite(walletClient, publicClient, {
           address: deployment.address,
           abi: reserveAbi,
           functionName: "cancel",
           args: [id, start],
         });
         setTxHash(hash);
-        await publicClient.waitForTransactionReceipt({ hash });
+        await waitSuccess(publicClient, hash);
         showToast("Booking cancelled. Full refund credited to your pending balance.", "success");
         return true;
       } catch (err) {
@@ -371,14 +376,15 @@ export function useReserve() {
       }
       setIsTransacting(true);
       try {
-        const hash = await walletClient.writeContract({
+        await assertActiveChain(walletClient);
+        const hash = await checkedWrite(walletClient, publicClient, {
           address: deployment.address,
           abi: reserveAbi,
           functionName: "hostCancel",
           args: [id, start],
         });
         setTxHash(hash);
-        await publicClient.waitForTransactionReceipt({ hash });
+        await waitSuccess(publicClient, hash);
         showToast("Booking cancelled by host. Booker refunded in full.", "success");
         return true;
       } catch (err) {
@@ -399,14 +405,15 @@ export function useReserve() {
       }
       setIsTransacting(true);
       try {
-        const hash = await walletClient.writeContract({
+        await assertActiveChain(walletClient);
+        const hash = await checkedWrite(walletClient, publicClient, {
           address: deployment.address,
           abi: reserveAbi,
           functionName: "collect",
           args: [id, start],
         });
         setTxHash(hash);
-        await publicClient.waitForTransactionReceipt({ hash });
+        await waitSuccess(publicClient, hash);
         showToast("Slot revenue collected to host till!", "success");
         return true;
       } catch (err) {
@@ -426,13 +433,14 @@ export function useReserve() {
     }
     setIsTransacting(true);
     try {
-      const hash = await walletClient.writeContract({
+      await assertActiveChain(walletClient);
+      const hash = await checkedWrite(walletClient, publicClient, {
         address: deployment.address,
         abi: reserveAbi,
         functionName: "withdraw",
       });
       setTxHash(hash);
-      await publicClient.waitForTransactionReceipt({ hash });
+      await waitSuccess(publicClient, hash);
       showToast("Withdrawn funds sent to your wallet!", "success");
       return true;
     } catch (err) {

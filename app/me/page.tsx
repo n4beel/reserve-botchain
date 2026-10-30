@@ -1,5 +1,6 @@
 "use client";
 
+import { activeBotChain } from "@/lib/botchain/chain";
 import React, { useState, useEffect, useCallback } from "react";
 import Link from "next/link";
 import { formatEther } from "viem";

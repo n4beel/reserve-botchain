@@ -122,7 +122,7 @@ export default function NewResourcePage() {
                 </label>
                 <Input
                   type="number"
-                  step="0.001"
+                  step="any"
                   min="0.000001"
                   placeholder="0.05"
                   value={priceStr}
